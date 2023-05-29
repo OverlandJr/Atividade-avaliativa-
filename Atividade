@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define MAX_USERS 1000
+#define MAX_NAME_LENGTH 100
+#define MAX_EMAIL_LENGTH 100
+#define MAX_ADDRESS_LENGTH 100
+
+typedef struct {
+    int id;
+    char nome[MAX_NAME_LENGTH];
+    char email[MAX_EMAIL_LENGTH];
+    char sexo[MAX_NAME_LENGTH];
+    char endereco[MAX_ADDRESS_LENGTH];
+    double altura;
+    int vacina;
+} Usuario;
+
+Usuario usuarios[MAX_USERS];
+int numUsuarios = 0;
+
+int gerarId() {
+    return rand() % 1000 + 1;
+}
+
+void adicionarUsuario() {
+    if (numUsuarios == MAX_USERS) {
+        printf("Limite de usuários atingido.\n");
+        return;
+    }
+
+    Usuario novoUsuario;
+    novoUsuario.id = gerarId();
+
+    printf("Nome completo: ");
+    fgets(novoUsuario.nome, sizeof(novoUsuario.nome), stdin);
+
+    printf("Email: ");
+    fgets(novoUsuario.email, sizeof(novoUsuario.email), stdin);
+
+    printf("Sexo (Feminino, Masculino, Indiferente): ");
+    fgets(novoUsuario.sexo, sizeof(novoUsuario.sexo), stdin);
+
+    printf("Endereço: ");
+    fgets(novoUsuario.endereco, sizeof(novoUsuario.endereco), stdin);
+
+    printf("Altura (entre 1 e 2 metros): ");
+    scanf("%lf", &novoUsuario.altura);
+
+    printf("Vacina (1 para sim, 0 para não): ");
+    scanf("%d", &novoUsuario.vacina);
+
+    usuarios[numUsuarios] = novoUsuario;
+    numUsuarios++;
+
+    printf("Usuário adicionado com sucesso.\n");
+}
+
+void editarUsuario() {
+    int id;
+    printf("Digite o ID do usuário a ser editado: ");
+    scanf("%d", &id);
+
+    int i;
+    for (i = 0; i < numUsuarios; i++) {
+        if (usuarios[i].id == id) {
+            printf("Nome completo: ");
+            fgets(usuarios[i].nome, sizeof(usuarios[i].nome), stdin);
+
+            printf("Email: ");
+            fgets(usuarios[i].email, sizeof(usuarios[i].email), stdin);
+
+            printf("Sexo (Feminino, Masculino, Indiferente): ");
+            fgets(usuarios[i].sexo, sizeof(usuarios[i].sexo), stdin);
+
+            printf("Endereço: ");
+            fgets(usuarios[i].endereco, sizeof(usuarios[i].endereco), stdin);
+
+            printf("Altura (entre 1 e 2 metros): ");
+            scanf("%lf", &usuarios[i].altura);
+
+            printf("Vacina (1 para sim, 0 para não): ");
+            scanf("%d", &usuarios[i].vacina);
+
+            printf("Usuário editado com sucesso.\n");
+            return;
+        }
+    }
+
+    printf("Usuário não encontrado.\n");
+}
